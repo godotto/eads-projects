@@ -1,0 +1,342 @@
+\documentclass{article}
+
+\usepackage{indentfirst}
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{geometry}
+
+\title{Singly linked list - an EADS project}
+\author{Maciej Marcinkiewicz}
+\date{November 2019}
+
+\newgeometry{lmargin=3.2cm, rmargin=3.2cm, bmargin=2.5cm}
+
+\lstset{
+    tabsize=4, % tab space width
+    showstringspaces=false, % don't mark spaces in strings
+    % numbers=left, % display line numbers on the left
+    basicstyle=\ttfamily,
+    keywordstyle=\color{blue}\ttfamily,
+    stringstyle=\color{red}\ttfamily,
+    commentstyle=\color{green}\ttfamily,
+    % morecomment=[l][\color{magenta}]{\#}
+}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+The aim of the project was to implement singly linked list in the C++ programming
+language with use of class template mechanism. Template was meant to accept two generic
+variables - {\tt Key} and {\tt Info} which are the fields of each list's node. The first
+one's purpose is to behave as identifier, i.e. operations such as removing or inserting
+nodes are based on these. The latter contains information that is meant to be stored
+in nodes.
+
+\indent
+The second task of project was to implement funtion {\tt Merge} which combines two lists
+in specific way and returns the result of that operation. The restrictions were to not
+include the funtion as a member of {\tt Sequence} class (which is the name of list class)
+and to not use a keyword {\tt friend}.
+
+\section{Overview of funtions}
+
+\subsection{Constructors and destructor}
+
+\begin{lstlisting}[language=C++]
+Sequence()
+\end{lstlisting}
+Default constructor.
+
+\begin{lstlisting}[language=C++]
+~Sequence()
+\end{lstlisting}
+Destructor.
+
+\begin{lstlisting}[language=C++]
+Sequence(const Sequence<Key, Info> &other)
+\end{lstlisting}
+Copy constructor.
+
+\begin{lstlisting}[language=C++]
+Node(const Key &key, const Info &info)
+\end{lstlisting}
+Constructor for {\tt Node}. Creates new node with given key and information.
+\vspace{\baselineskip}
+
+\subsection{Overloaded operators}
+
+\begin{lstlisting}[language=C++]
+Sequence<Key, Info> &operator=(const Sequence<Key, Info> &other)
+\end{lstlisting}
+Assignment operator.
+
+\begin{lstlisting}[language=C++]
+bool operator==(const Sequence<Key, Info> &other)
+\end{lstlisting}
+Comparison operator. Returns {\tt true} if compared lists contain the same elements.
+
+\begin{lstlisting}[language=C++]
+bool operator!=(const Sequence<Key, Info> &other)
+\end{lstlisting}
+Comparison operator. Returns {\tt false} if compared lists contain the same elements.
+\newpage
+
+\begin{lstlisting}[language=C++]
+Sequence<Key, Info> operator+(const Sequence<Key, Info> &other)
+\end{lstlisting}
+Returns combination of two list.
+
+\begin{lstlisting}[language=C++]
+Sequence<Key, Info> &operator+=(const Sequence<Key, Info> &other)
+\end{lstlisting}
+Extends list by another list's elements.
+
+\subsection{Adding elements}
+
+\begin{lstlisting}[language=C++]
+void PushFront(const Key &key, const Info &info)
+\end{lstlisting}
+Method which adds new node of given key and information on the beginning of list.
+
+\begin{lstlisting}[language=C++]
+void PushBack(const Key &key, const Info &info)
+\end{lstlisting}
+Method which adds new node of given key and information on the end of list.
+
+\begin{lstlisting}[language=C++]
+bool Insert(const Key &key, const Info &info, const Key &after,
+            int whichOccurance = 1)
+\end{lstlisting}
+Method which adds new node of given key and information after node with specified key.\\
+{\tt whichOccurance} tells after which occurance of key {\tt after} new node should
+be inserted. Returns {\tt true} if operation was successful. Returns {\tt false} if
+the proper node to insert after does not exist.
+\vspace{\baselineskip}
+
+\subsection{Removing elements}
+
+\begin{lstlisting}[language=C++]
+bool PopFront()
+\end{lstlisting}
+Method which removes the first node. Returns {\tt false} if list is empty.
+
+\begin{lstlisting}[language=C++]
+bool PopBack()
+\end{lstlisting}
+Method which removes the last node. Returns {\tt false} if list is empty.
+
+\begin{lstlisting}[language=C++]
+bool Remove(const Key &key, int whichOccurance = 1)
+\end{lstlisting}
+Method which removes node of given key. {\tt whichOccurance} tells which occurance
+of key in list should be removed. Returns {\tt false} if list is empty or there is
+no proper node to remove.
+
+\begin{lstlisting}[language=C++]
+bool Clear()
+\end{lstlisting}
+Removes all nodes. Returns {\tt false} if list is empty.
+
+\begin{lstlisting}[language=C++]
+bool RemoveAllOccurances(const Key &key)
+\end{lstlisting}
+Method which removes all nodes with {\tt key}. Returns {\tt false} if list is empty
+or there are no nodes with such a key.
+\vspace{\baselineskip}
+
+\subsection{Other methods}
+
+\begin{lstlisting}[language=C++]
+bool IsEmpty() const
+\end{lstlisting}
+Returns {\tt true} if list contains no nodes.
+
+\begin{lstlisting}[language=C++]
+int Size() const
+\end{lstlisting}
+Returns private field {\tt size} which conatains number of nodes in list.
+
+\begin{lstlisting}[language=C++]
+bool Find(const Key &key, int whichOccurance = 1) const
+\end{lstlisting}
+Returns {\tt true} if there is node of given key in the list. {\tt whichOccurance}
+tells which occurance of key has to be found.
+
+\begin{lstlisting}[language=C++]
+int NumberOfOccurances(const Key &key) const
+\end{lstlisting}
+Returns number of occurances of nodes with given key.
+
+\begin{lstlisting}[language=C++]
+Sequence<Key, Info> GetFragmentOfSequence(int start,
+                                          int length) const
+\end{lstlisting}
+Returns a list which is a part from the list in which this method has been called.
+{\tt start} is a position of the first element taken and {\tt length} indicates
+how many elements should be taken.
+
+\begin{lstlisting}[language=C++]
+void Print() const
+\end{lstlisting}
+If possible, prints all elements. If list is empty prints message which informs about that.
+
+\begin{lstlisting}[language=C++]
+void Print(std::ostream &os) const
+\end{lstlisting}
+The same as above with an addition of ostream as an argument. Message about how successful
+operation of printing was is passed into this ostream to make unit testing easier.
+
+\vspace{\baselineskip}
+
+\subsection{Merge function}
+
+\begin{lstlisting}[language=C++]
+Sequence<Key, Info> Merge(const Sequence<Key, Info> &sequence1,
+                          int start1, int len1,
+                          const Sequence<Key, Info> &sequence2,
+                          int start2, int len2,
+                          int count)
+\end{lstlisting}
+Returns {\tt Sequence} which is a product of two other lists. {\tt start1} and
+{\tt start2} tell how many nodes from the beginning of lists should be skipped,
+{\tt len1} and {\tt len2} tell how many nodes should be taken from each of lists
+and finally {\tt count} tells how many subsequences from each of lists should be
+taken i.e. how many times should be operation of taking {\tt len1} and {\tt len2}
+nodes repeated. If both lists are empty function returns an empty list.
+\vspace{\baselineskip}
+
+\subsubsection*{Example}
+
+\begin{lstlisting}[language=C++]
+Input:
+//info, keys for every node are the same
+s1 = {1, 2, 3, 4, 5, 6, 7, 8, 9}
+s2 = {10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110}
+
+start1 = 2
+start2 = 1
+
+len1 = 3
+len2 = 2
+
+count = 4
+
+Output:
+//only info as keys are the same
+Merge(s1, 2, 3, s2, 1, 2, 4) =
+{3, 4, 5, 20, 30, 6, 7, 8, 40, 50, 9, 60, 70, 80, 90}
+\end{lstlisting}
+\newpage
+
+\section{Decisions and changes}
+
+On the early stage my implementation had {\tt operator[]} overloading. The idea was
+to make accessing nodes more intuitive and to make implementation of other methods
+easier. However this approach is not suitable for structure like linked list.
+As list is not a random access structure it is necessary to iterate through nodes
+of list to obtain specified node. Using this operator for example in removing all
+occurances of nodes with chosen key could be an operation with very high time complexity.
+The second problem is breaking encapsulation. With such a public operator node's {\tt next}
+pointer could be changed in the outside of {\tt Sequence} and it could lead to list's
+breaking (and in result of memory leak and losing access to some nodes).
+
+\indent
+With abandonment of {\tt operator[]} new problem arised - accessing nodes of lists
+in {\tt Merge} function. As it is impossible due to {\tt Node} being private I had
+to implement a method which returns a fragment of list. Then with use of overloaded
+{\tt +=} operator it was possible to easily make a new list which is a combination of fragments
+of two other lists.
+
+\indent
+To make testing possible I also implemented {\tt Print} method which prints all values
+stored in the list. There is one restriction - data types stored in the list has to be
+valuable (or with {\tt <<} operator overloaded). I considered an external method for this
+purpose but without access to the elements of list it is impossible.
+
+\section{Testing}
+
+\subsection{Introduction}
+
+I decided to use Catch2 testing framework to get familiar with using such frameworks.
+With its help I divided tests on several test cases. These cases are also divided into
+sections. That makes them easier to be performed as in case of failure framework
+gives us exact information about test case and section in which assertion has been failed.
+
+\indent
+Unit test are performed in two source files, one for {\tt Sequence} methods testing and the second
+for {\tt Merge} function testing.
+
+\indent
+For the purpose of memory leaks checking I used Valgrind software.
+
+\subsection{Structure of tests}
+
+\subsubsection*{Empty list}
+
+\begin{itemize}
+    \item Printing list
+    \item Checking if list is empty
+    \item Using removal methods
+    \item Using {\tt Find} method
+\end{itemize}
+
+\subsubsection*{Filling list}
+
+\begin{itemize}
+    \item Adding nodes on the beginning
+    \item Adding nodes on the end
+    \item Adding nodes inside the list
+\end{itemize}
+
+\subsubsection*{Removing nodes from list}
+
+\begin{itemize}
+    \item Removing nodes from the beginning
+    \item Removing nodes from the end
+    \item Removing selected nodes
+    \item Removing all nodes
+    \item Removing all nodes with chosen key
+\end{itemize}
+
+\subsubsection*{Comparison operators}
+
+\begin{itemize}
+    \item Equality operator
+    \item Inequality operator
+\end{itemize}
+
+\subsubsection*{Copying lists}
+
+\begin{itemize}
+    \item Copying with copy constructor
+    \item Copying with assignment operator
+\end{itemize}
+
+\subsubsection*{Other methods}
+
+\begin{itemize}
+    \item Size method
+    \item Find method
+    \item Checking number of occurances
+\end{itemize}
+
+\subsubsection*{Other methods}
+
+\begin{itemize}
+    \item Size method
+    \item Find method
+    \item Checking number of occurances
+\end{itemize}
+
+\subsubsection*{Merge function}
+
+\begin{itemize}
+    \item Merging when both of lists are empty
+    \item Merging when one of lists is empty
+    \item Merging with filled lists
+\end{itemize}
+
+\end{document}
