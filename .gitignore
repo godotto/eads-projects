@@ -1,0 +1,10 @@
+# Visual Studio Code config directory
+.vscode
+
+# LaTeX cache
+__latexindent_temp.tex
+report.synctex.gz
+
+# binaries and object files
+bin/
+build/
