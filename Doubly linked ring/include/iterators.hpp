@@ -1,16 +1,14 @@
 #ifndef ITERATORS_HPP
 #define ITERATORS_HPP
 
-#include "ring.hpp"
-
 template <typename Key, typename Info>
-class iterator
+class Ring<Key, Info>::iterator
 {
 public:
     iterator();
 
-    typename Ring<Key, Info>::Data &operator*() const;
-    typename Ring<Key, Info>::Data *operator->() const;
+    Data &operator*() const;
+    Data *operator->() const;
 
     iterator &operator++();
     iterator operator++(int);
@@ -27,13 +25,13 @@ private:
 };
 
 template <typename Key, typename Info>
-class const_iterator
+class Ring<Key, Info>::const_iterator
 {
 public:
     const_iterator();
 
-    typename Ring<Key, Info>::Data &operator*() const;
-    typename Ring<Key, Info>::Data *operator->() const;
+    Data &operator*() const;
+    Data *operator->() const;
 
     const_iterator &operator++();
     const_iterator operator++(int);
@@ -53,11 +51,11 @@ private:
 
 // ctor
 template <typename Key, typename Info>
-iterator<Key, Info>::iterator() { node = nullptr; }
+Ring<Key, Info>::iterator::iterator() { node = nullptr; }
 
 // operators * and ->
 template <typename Key, typename Info>
-typename Ring<Key, Info>::Data &iterator<Key, Info>::operator*() const
+typename Ring<Key, Info>::Data &Ring<Key, Info>::iterator::operator*() const
 {
     if (node == nullptr)
         throw std::string("Cannot use operator *");
@@ -66,7 +64,7 @@ typename Ring<Key, Info>::Data &iterator<Key, Info>::operator*() const
 }
 
 template <typename Key, typename Info>
-typename Ring<Key, Info>::Data *iterator<Key, Info>::operator->() const
+typename Ring<Key, Info>::Data *Ring<Key, Info>::iterator::operator->() const
 {
     if (node == nullptr)
         throw std::string("Cannot use operator ->");
@@ -76,7 +74,7 @@ typename Ring<Key, Info>::Data *iterator<Key, Info>::operator->() const
 
 // operators ++
 template <typename Key, typename Info>
-iterator<Key, Info> &iterator<Key, Info>::operator++()
+typename Ring<Key, Info>::iterator &Ring<Key, Info>::iterator::operator++()
 {
     if (node == nullptr)
         throw std::string("Cannot use operator ++");
@@ -88,7 +86,7 @@ iterator<Key, Info> &iterator<Key, Info>::operator++()
 }
 
 template <typename Key, typename Info>
-iterator<Key, Info> iterator<Key, Info>::operator++(int)
+typename Ring<Key, Info>::iterator Ring<Key, Info>::iterator::operator++(int)
 {
     if (node == nullptr)
         throw std::string("Cannot use operator ++");
@@ -102,7 +100,7 @@ iterator<Key, Info> iterator<Key, Info>::operator++(int)
 
 // operators --
 template <typename Key, typename Info>
-iterator<Key, Info> &iterator<Key, Info>::operator--()
+typename Ring<Key, Info>::iterator &Ring<Key, Info>::iterator::operator--()
 {
     if (node == nullptr)
         throw std::string("Cannot use operator --");
@@ -114,7 +112,7 @@ iterator<Key, Info> &iterator<Key, Info>::operator--()
 }
 
 template <typename Key, typename Info>
-iterator<Key, Info> iterator<Key, Info>::operator--(int)
+typename Ring<Key, Info>::iterator Ring<Key, Info>::iterator::operator--(int)
 {
     if (node == nullptr)
         throw std::string("Cannot use operator --");
@@ -128,21 +126,20 @@ iterator<Key, Info> iterator<Key, Info>::operator--(int)
 
 // comparison operators
 template <typename Key, typename Info>
-bool iterator<Key, Info>::operator==(const iterator &other) const { return node == other.node }
+bool Ring<Key, Info>::iterator::operator==(const iterator &other) const { return node == other.node; }
 
 template <typename Key, typename Info>
-bool iterator<Key, Info>::operator!=(const iterator &other) const { return node == other.node }
-
+bool Ring<Key, Info>::iterator::operator!=(const iterator &other) const { return node == other.node; }
 
 // const_iterator
 
 // ctor
 template <typename Key, typename Info>
-const_iterator<Key, Info>::const_iterator() { node = nullptr; }
+Ring<Key, Info>::const_iterator::const_iterator() { node = nullptr; }
 
 // operators * and ->
 template <typename Key, typename Info>
-typename Ring<Key, Info>::Data &const_iterator<Key, Info>::operator*() const
+typename Ring<Key, Info>::Data &Ring<Key, Info>::const_iterator::operator*() const
 {
     if (node == nullptr)
         throw std::string("Cannot use operator *");
@@ -151,7 +148,7 @@ typename Ring<Key, Info>::Data &const_iterator<Key, Info>::operator*() const
 }
 
 template <typename Key, typename Info>
-typename Ring<Key, Info>::Data *const_iterator<Key, Info>::operator->() const
+typename Ring<Key, Info>::Data *Ring<Key, Info>::const_iterator::operator->() const
 {
     if (node == nullptr)
         throw std::string("Cannot use operator ->");
@@ -161,7 +158,7 @@ typename Ring<Key, Info>::Data *const_iterator<Key, Info>::operator->() const
 
 // operators ++
 template <typename Key, typename Info>
-const_iterator<Key, Info> &const_iterator<Key, Info>::operator++()
+typename Ring<Key, Info>::const_iterator &Ring<Key, Info>::const_iterator::operator++()
 {
     if (node == nullptr)
         throw std::string("Cannot use operator ++");
@@ -173,7 +170,7 @@ const_iterator<Key, Info> &const_iterator<Key, Info>::operator++()
 }
 
 template <typename Key, typename Info>
-const_iterator<Key, Info> const_iterator<Key, Info>::operator++(int)
+typename Ring<Key, Info>::const_iterator Ring<Key, Info>::const_iterator::operator++(int)
 {
     if (node == nullptr)
         throw std::string("Cannot use operator ++");
@@ -187,7 +184,7 @@ const_iterator<Key, Info> const_iterator<Key, Info>::operator++(int)
 
 // operators --
 template <typename Key, typename Info>
-const_iterator<Key, Info> &const_iterator<Key, Info>::operator--()
+typename Ring<Key, Info>::const_iterator &Ring<Key, Info>::const_iterator::operator--()
 {
     if (node == nullptr)
         throw std::string("Cannot use operator --");
@@ -199,7 +196,7 @@ const_iterator<Key, Info> &const_iterator<Key, Info>::operator--()
 }
 
 template <typename Key, typename Info>
-const_iterator<Key, Info> const_iterator<Key, Info>::operator--(int)
+typename Ring<Key, Info>::const_iterator Ring<Key, Info>::const_iterator::operator--(int)
 {
     if (node == nullptr)
         throw std::string("Cannot use operator --");
@@ -213,9 +210,9 @@ const_iterator<Key, Info> const_iterator<Key, Info>::operator--(int)
 
 // comparison operators
 template <typename Key, typename Info>
-bool const_iterator<Key, Info>::operator==(const const_iterator &other) const { return node == other.node }
+bool Ring<Key, Info>::const_iterator::operator==(const const_iterator &other) const { return node == other.node; }
 
 template <typename Key, typename Info>
-bool const_iterator<Key, Info>::operator!=(const const_iterator &other) const { return node == other.node }
+bool Ring<Key, Info>::const_iterator::operator!=(const const_iterator &other) const { return node == other.node; }
 
 #endif
