@@ -32,8 +32,8 @@ class const_iterator
 public:
     const_iterator();
 
-    Ring<Key, Info>::Node::Data &operator*() const;
-    Ring<Key, Info>::Node::Data *operator->() const;
+    typename Ring<Key, Info>::Node::Data &operator*() const;
+    typename Ring<Key, Info>::Node::Data *operator->() const;
 
     const_iterator &operator++();
     const_iterator operator++(int);
@@ -132,5 +132,90 @@ bool iterator<Key, Info>::operator==(const iterator &other) const { return node 
 
 template <typename Key, typename Info>
 bool iterator<Key, Info>::operator!=(const iterator &other) const { return node == other.node }
+
+
+// const_iterator
+
+// ctor
+template <typename Key, typename Info>
+const_iterator<Key, Info>::const_iterator() { node = nullptr; }
+
+// operators * and ->
+template <typename Key, typename Info>
+typename Ring<Key, Info>::Node::Data &const_iterator<Key, Info>::operator*() const
+{
+    if (node == nullptr)
+        throw std::string("Cannot use operator *");
+    else
+        return node->data;
+}
+
+template <typename Key, typename Info>
+typename Ring<Key, Info>::Node::Data *const_iterator<Key, Info>::operator->() const
+{
+    if (node == nullptr)
+        throw std::string("Cannot use operator ->");
+    else
+        return &(node->data);
+}
+
+// operators ++
+template <typename Key, typename Info>
+const_iterator<Key, Info> &const_iterator<Key, Info>::operator++()
+{
+    if (node == nullptr)
+        throw std::string("Cannot use operator ++");
+    else
+    {
+        node = node->next;
+        return *this;
+    }
+}
+
+template <typename Key, typename Info>
+const_iterator<Key, Info> const_iterator<Key, Info>::operator++(int)
+{
+    if (node == nullptr)
+        throw std::string("Cannot use operator ++");
+    else
+    {
+        const_iterator old = *this;
+        node = node->next;
+        return old;
+    }
+}
+
+// operators --
+template <typename Key, typename Info>
+const_iterator<Key, Info> &const_iterator<Key, Info>::operator--()
+{
+    if (node == nullptr)
+        throw std::string("Cannot use operator --");
+    else
+    {
+        node = node->previous;
+        return *this;
+    }
+}
+
+template <typename Key, typename Info>
+const_iterator<Key, Info> const_iterator<Key, Info>::operator--(int)
+{
+    if (node == nullptr)
+        throw std::string("Cannot use operator --");
+    else
+    {
+        const_iterator old = *this;
+        node = node->previous;
+        return old;
+    }
+}
+
+// comparison operators
+template <typename Key, typename Info>
+bool const_iterator<Key, Info>::operator==(const const_iterator &other) const { return node == other.node }
+
+template <typename Key, typename Info>
+bool const_iterator<Key, Info>::operator!=(const const_iterator &other) const { return node == other.node }
 
 #endif
