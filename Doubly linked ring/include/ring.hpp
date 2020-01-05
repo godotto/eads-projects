@@ -29,7 +29,8 @@ public:
     bool Clear();
     bool RemoveAllOccurances(const Key &key);
 
-    iterator Find(const Key &key, int whichOccurance = 1) const;
+    iterator Find(const Key &key, int whichOccurance = 1);
+    const_iterator Find(const Key &key, int whichOccurance = 1) const;
     bool IsEmpty() const;
     int Size() const;
     int NumberOfOccurances(const Key &key) const;
