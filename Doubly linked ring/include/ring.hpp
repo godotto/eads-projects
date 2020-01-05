@@ -1,10 +1,23 @@
 #ifndef RING_HPP
 #define RING_HPP
 
+#include <string>
+
 template <typename Key, typename Info>
 class Ring
 {
 public:
+    struct Data
+    {
+        Key key;
+        Info info;
+
+        Data(const Key &key, const Info &info);
+    };
+
+    class iterator;
+    class const_iterator;
+
     Ring();
     ~Ring();
     Ring(const Ring<Key, Info> &other);
@@ -40,14 +53,6 @@ public:
 private:
     struct Node
     {
-        struct Data
-        {
-            Key key;
-            Info info;
-
-            Data(const Key &key, const Info &info);
-        };
-
         Data data;
         Node *next;
         Node *previous;
@@ -55,12 +60,10 @@ private:
 
     Node *first;
     int size;
-
-    friend class iterator;
-    friend class const_iterator;
 };
 
 // ctors and dtor
 
+#include "iterators.hpp"
 
 #endif
