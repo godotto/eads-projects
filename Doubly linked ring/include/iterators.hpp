@@ -9,8 +9,8 @@ class iterator
 public:
     iterator();
 
-    typename Ring<Key, Info>::Node::Data &operator*() const;
-    typename Ring<Key, Info>::Node::Data *operator->() const;
+    typename Ring<Key, Info>::Data &operator*() const;
+    typename Ring<Key, Info>::Data *operator->() const;
 
     iterator &operator++();
     iterator operator++(int);
@@ -32,8 +32,8 @@ class const_iterator
 public:
     const_iterator();
 
-    typename Ring<Key, Info>::Node::Data &operator*() const;
-    typename Ring<Key, Info>::Node::Data *operator->() const;
+    typename Ring<Key, Info>::Data &operator*() const;
+    typename Ring<Key, Info>::Data *operator->() const;
 
     const_iterator &operator++();
     const_iterator operator++(int);
@@ -57,7 +57,7 @@ iterator<Key, Info>::iterator() { node = nullptr; }
 
 // operators * and ->
 template <typename Key, typename Info>
-typename Ring<Key, Info>::Node::Data &iterator<Key, Info>::operator*() const
+typename Ring<Key, Info>::Data &iterator<Key, Info>::operator*() const
 {
     if (node == nullptr)
         throw std::string("Cannot use operator *");
@@ -66,7 +66,7 @@ typename Ring<Key, Info>::Node::Data &iterator<Key, Info>::operator*() const
 }
 
 template <typename Key, typename Info>
-typename Ring<Key, Info>::Node::Data *iterator<Key, Info>::operator->() const
+typename Ring<Key, Info>::Data *iterator<Key, Info>::operator->() const
 {
     if (node == nullptr)
         throw std::string("Cannot use operator ->");
@@ -142,7 +142,7 @@ const_iterator<Key, Info>::const_iterator() { node = nullptr; }
 
 // operators * and ->
 template <typename Key, typename Info>
-typename Ring<Key, Info>::Node::Data &const_iterator<Key, Info>::operator*() const
+typename Ring<Key, Info>::Data &const_iterator<Key, Info>::operator*() const
 {
     if (node == nullptr)
         throw std::string("Cannot use operator *");
@@ -151,7 +151,7 @@ typename Ring<Key, Info>::Node::Data &const_iterator<Key, Info>::operator*() con
 }
 
 template <typename Key, typename Info>
-typename Ring<Key, Info>::Node::Data *const_iterator<Key, Info>::operator->() const
+typename Ring<Key, Info>::Data *const_iterator<Key, Info>::operator->() const
 {
     if (node == nullptr)
         throw std::string("Cannot use operator ->");
