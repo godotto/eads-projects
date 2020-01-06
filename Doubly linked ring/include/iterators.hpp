@@ -30,8 +30,8 @@ class Ring<Key, Info>::const_iterator
 public:
     const_iterator();
 
-    Data &operator*() const;
-    Data *operator->() const;
+    const Data &operator*() const;
+    const Data *operator->() const;
 
     const_iterator &operator++();
     const_iterator operator++(int);
@@ -139,7 +139,7 @@ Ring<Key, Info>::const_iterator::const_iterator() { node = nullptr; }
 
 // operators * and ->
 template <typename Key, typename Info>
-typename Ring<Key, Info>::Data &Ring<Key, Info>::const_iterator::operator*() const
+const typename Ring<Key, Info>::Data &Ring<Key, Info>::const_iterator::operator*() const
 {
     if (node == nullptr)
         throw std::string("Cannot use operator *");
@@ -148,7 +148,7 @@ typename Ring<Key, Info>::Data &Ring<Key, Info>::const_iterator::operator*() con
 }
 
 template <typename Key, typename Info>
-typename Ring<Key, Info>::Data *Ring<Key, Info>::const_iterator::operator->() const
+const typename Ring<Key, Info>::Data *Ring<Key, Info>::const_iterator::operator->() const
 {
     if (node == nullptr)
         throw std::string("Cannot use operator ->");
