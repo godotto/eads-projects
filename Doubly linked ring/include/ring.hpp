@@ -32,11 +32,9 @@ public:
     const_iterator begin() const;
     const_iterator end() const;
 
-    void PushFront(const Key &key, const Info &info);
     void PushBack(const Key &key, const Info &info);
     bool Insert(const Key &key, const Info &info, const iterator &position);
 
-    bool PopFront();
     bool PopBack();
     bool Remove(const iterator &position);
     bool Clear();
@@ -195,6 +193,46 @@ void Ring<Key, Info>::PushBack(const Key &key, const Info &info)
     }
 }
 
+// removing methods
+
+template <typename Key, typename Info>
+bool Ring<Key, Info>::PopBack()
+{
+    if (IsEmpty())
+        return false;
+    else if (size == 1)
+    {
+        delete first;
+        first = nullptr;
+    }
+    else
+    {
+        Node *temp = first->previous;
+        temp->previous->next = first;
+        first->previous = temp->previous;
+        delete temp;
+    }
+
+    size--;
+    return true;
+}
+
+template <typename Key, typename Info>
+bool Ring<Key, Info>::Clear()
+{
+    if (IsEmpty())
+        return false;
+    else
+    {
+        int numberOfIterations = size;
+
+        for (int i = 0; i < numberOfIterations; i++)
+            PopBack();
+    }
+
+    return true;
+}
+
 // other methods
 
 template <typename Key, typename Info>
@@ -212,6 +250,12 @@ int Ring<Key, Info>::Size() const { return size; }
 template <typename Key, typename Info>
 void Ring<Key, Info>::Print() const
 {
+    if (IsEmpty())
+    {
+        std::cout << "List is empty\n";
+        return;
+    }
+    
     const_iterator it = begin();
 
     for (int i = 0; i < size; i++)
