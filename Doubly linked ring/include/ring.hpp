@@ -91,6 +91,40 @@ Ring<Key, Info>::Node::Node(const Key &key, const Info &info, Node *next, Node *
     this->previous = previous;
 }
 
+// iterators
+
+template <typename Key, typename Info>
+typename Ring<Key, Info>::iterator Ring<Key, Info>::begin()
+{
+    iterator it;
+    it.node = first;
+    return it;
+}
+
+template <typename Key, typename Info>
+typename Ring<Key, Info>::iterator Ring<Key, Info>::end()
+{
+    iterator it;
+    it.node = nullptr;
+    return it;
+}
+
+template <typename Key, typename Info>
+typename Ring<Key, Info>::const_iterator Ring<Key, Info>::begin() const
+{
+    const_iterator it;
+    it.node = first;
+    return it;
+}
+
+template <typename Key, typename Info>
+typename Ring<Key, Info>::const_iterator Ring<Key, Info>::end() const
+{
+    const_iterator it;
+    it.node = first;
+    return it;
+}
+
 
 
 #include "iterators.hpp"
