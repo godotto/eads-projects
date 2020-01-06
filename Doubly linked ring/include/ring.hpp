@@ -254,6 +254,54 @@ bool Ring<Key, Info>::Clear()
 // other methods
 
 template <typename Key, typename Info>
+typename Ring<Key, Info>::iterator Ring<Key, Info>::Find(const Key &key, int whichOccurance)
+{
+    if (IsEmpty())
+        return end();
+    else
+    {
+        iterator it = begin();
+        int counter;
+
+        for (int i = 0; i < size; i++)
+        {
+            if (it->key == key)
+            {
+                counter++;
+                if (counter == whichOccurance)
+                    return it;
+            }
+            ++it;
+        }
+        return end();
+    }
+}
+
+template <typename Key, typename Info>
+typename Ring<Key, Info>::const_iterator Ring<Key, Info>::Find(const Key &key, int whichOccurance) const
+{
+    if (IsEmpty())
+        return end();
+    else
+    {
+        const_iterator it = begin();
+        int counter;
+
+        for (int i = 0; i < size; i++)
+        {
+            if (it->key == key)
+            {
+                counter++;
+                if (counter == whichOccurance)
+                    return it;
+            }
+            ++it;
+        }
+        return end();
+    }
+}
+
+template <typename Key, typename Info>
 bool Ring<Key, Info>::IsEmpty() const
 {
     if (size == 0)
@@ -264,6 +312,22 @@ bool Ring<Key, Info>::IsEmpty() const
 
 template <typename Key, typename Info>
 int Ring<Key, Info>::Size() const { return size; }
+
+template <typename Key, typename Info>
+int Ring<Key, Info>::NumberOfOccurances(const Key &key) const
+{
+    const_iterator it = begin();
+    int counter = 0;
+
+    for (int i = 0; i < size; i++)
+    {
+        if (it->key == key)
+            counter++;
+        ++it;
+    }
+
+    return counter;
+}
 
 template <typename Key, typename Info>
 void Ring<Key, Info>::Print() const
