@@ -211,6 +211,24 @@ void Ring<Key, Info>::PushBack(const Key &key, const Info &info)
     }
 }
 
+template <typename Key, typename Info>
+bool Ring<Key, Info>::Insert(const Key &key, const Info &info, const iterator &position)
+{
+    if (position == end())
+        return false;
+    else if (IsEmpty())
+        PushBack(key, info);
+    else
+    {
+        Node *newNode = new Node(key, info, position.node, position.node->previous);
+        position.node->previous->next = newNode;
+        position.node->previous = newNode;
+        size++;
+    }
+
+    return true;
+}
+
 // removing methods
 
 template <typename Key, typename Info>
@@ -233,6 +251,58 @@ bool Ring<Key, Info>::PopBack()
 
     size--;
     return true;
+}
+
+template <typename Key, typename Info>
+bool Ring<Key, Info>::Remove(const iterator &position)
+{
+    if (position == end() || IsEmpty())
+        return false;
+    else if(size == 1)
+        PopBack();
+    else
+    {
+        position.node->previous->next = position.node->next;
+        position.node->next->previous = position.node->previous;
+
+        if (first == position.node)
+            first = first->next;
+
+        delete position.node;
+        size--;
+    }
+    return true;
+}
+
+template <typename Key, typename Info>
+bool Ring<Key, Info>::RemoveAllOccurances(const Key &key)
+{
+    if (IsEmpty())
+        return false;
+    else
+    {
+        int occurances = 0;
+        iterator it = begin();
+        iterator temp;
+
+        for (int i = 0; i < size; i++)
+        {
+            if (it->key == key)
+            {
+                occurances++;
+                temp = it;
+                ++it;
+                Remove(temp);
+            }
+            else
+                ++it;
+        }
+
+        if (occurances == 0)
+            return false;
+        else
+            return true;
+    }
 }
 
 template <typename Key, typename Info>
