@@ -331,7 +331,7 @@ typename Ring<Key, Info>::iterator Ring<Key, Info>::Find(const Key &key, int whi
     else
     {
         iterator it = begin();
-        int counter;
+        int counter = 0;
 
         for (int i = 0; i < size; i++)
         {
