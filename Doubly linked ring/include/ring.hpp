@@ -45,8 +45,6 @@ public:
     bool IsEmpty() const;
     int Size() const;
     int NumberOfOccurances(const Key &key) const;
-    void Print() const;
-    //void Print(std::ostream &os) const;
 
 private:
     struct Node
@@ -397,24 +395,6 @@ int Ring<Key, Info>::NumberOfOccurances(const Key &key) const
     }
 
     return counter;
-}
-
-template <typename Key, typename Info>
-void Ring<Key, Info>::Print() const
-{
-    if (IsEmpty())
-    {
-        std::cout << "List is empty\n";
-        return;
-    }
-    
-    const_iterator it = begin();
-
-    for (int i = 0; i < size; i++)
-    {
-        std::cout << "Key: " << it->key << " Info: " << it->info << std::endl;
-        ++it;
-    }
 }
 
 #include "iterators.hpp"
