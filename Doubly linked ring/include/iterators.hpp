@@ -129,7 +129,7 @@ template <typename Key, typename Info>
 bool Ring<Key, Info>::iterator::operator==(const iterator &other) const { return node == other.node; }
 
 template <typename Key, typename Info>
-bool Ring<Key, Info>::iterator::operator!=(const iterator &other) const { return node == other.node; }
+bool Ring<Key, Info>::iterator::operator!=(const iterator &other) const { return node != other.node; }
 
 // const_iterator
 
@@ -213,6 +213,6 @@ template <typename Key, typename Info>
 bool Ring<Key, Info>::const_iterator::operator==(const const_iterator &other) const { return node == other.node; }
 
 template <typename Key, typename Info>
-bool Ring<Key, Info>::const_iterator::operator!=(const const_iterator &other) const { return node == other.node; }
+bool Ring<Key, Info>::const_iterator::operator!=(const const_iterator &other) const { return node != other.node; }
 
 #endif

@@ -65,6 +65,7 @@ private:
 };
 
 // ctors and dtor
+
 template <typename Key, typename Info>
 Ring<Key, Info>::Ring()
 {
@@ -75,6 +76,20 @@ Ring<Key, Info>::Ring()
 template <typename Key, typename Info>
 Ring<Key, Info>::~Ring()
 {
+}
+
+template <typename Key, typename Info>
+Ring<Key, Info>::Ring(const Ring<Key, Info> &other)
+{
+    first = nullptr;
+    size = 0;
+
+    const_iterator it = other.begin();
+    for (int i = 0; i < other.size; i++)
+    {
+        PushBack(it->key, it->info);
+        ++it;
+    }
 }
 
 template <typename Key, typename Info>
@@ -89,6 +104,38 @@ Ring<Key, Info>::Node::Node(const Key &key, const Info &info, Node *next, Node *
 {
     this->next = next;
     this->previous = previous;
+}
+
+// comparison operators
+
+template <typename Key, typename Info>
+bool Ring<Key, Info>::operator==(const Ring<Key, Info> &other)
+{
+    if (size != other.size)
+        return false;
+    else
+    {
+        iterator itLeft = this->begin();
+        const_iterator itRight = other.begin();
+        for (int i = 0; i < size; i++)
+        {
+            if (itLeft->key != itRight->key || itLeft->info != itRight->info)
+                return false;
+            else
+            {
+                ++itLeft;
+                ++itRight;
+            }
+        }
+    }
+
+    return true;
+}
+
+template <typename Key, typename Info>
+bool Ring<Key, Info>::operator!=(const Ring<Key, Info> &other)
+{
+    return !operator==(other);
 }
 
 // iterators
@@ -149,6 +196,7 @@ void Ring<Key, Info>::PushBack(const Key &key, const Info &info)
 }
 
 // other methods
+
 template <typename Key, typename Info>
 bool Ring<Key, Info>::IsEmpty() const
 {
@@ -159,12 +207,15 @@ bool Ring<Key, Info>::IsEmpty() const
 }
 
 template <typename Key, typename Info>
+int Ring<Key, Info>::Size() const { return size; }
+
+template <typename Key, typename Info>
 void Ring<Key, Info>::Print() const
 {
     const_iterator it = begin();
-    
+
     for (int i = 0; i < size; i++)
-    {        
+    {
         std::cout << "Key: " << it->key << " Info: " << it->info << std::endl;
         ++it;
     }
