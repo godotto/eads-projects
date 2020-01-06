@@ -1,13 +1,12 @@
 \documentclass{article}
 
-\usepackage{indentfirst}
 \usepackage{listings}
 \usepackage{xcolor}
 \usepackage{geometry}
 
-\title{Singly linked list - an EADS project}
+\title{Doubly linked circular list - an EADS project}
 \author{Maciej Marcinkiewicz}
-\date{November 2019}
+\date{January 2020}
 
 \newgeometry{lmargin=3.2cm, rmargin=3.2cm, bmargin=2.5cm}
 
@@ -25,5 +24,227 @@
 \begin{document}
 
 \maketitle
+
+\section{Introduction}
+
+The goal of the project is to implement doubly linked circular list (or as some call
+it – ring) in the C++ programming language with use of templates. As in the previous 
+project the requirement is to create a container with two generic parameters – {\tt Key}
+and {\tt Info}. One more requirement was to use iterators, so {\tt Ring} has to conatin
+{\tt iterator} and {\tt const\_iterator} classes.
+
+\indent
+The second task is to create {\tt Split function} which produces two rings out of one.
+This function is meant to be external (and cannot be linked with keyword {\tt friend}).
+
+\section{Overview of funtions}
+
+\subsection{Constructors and destructor}
+
+\begin{lstlisting}[language=C++]
+Ring()
+\end{lstlisting}
+Default constructor.
+
+\begin{lstlisting}[language=C++]
+~Ring()
+\end{lstlisting}
+Destructor.
+
+\begin{lstlisting}[language=C++]
+Ring(const Ring<Key, Info> &other)
+\end{lstlisting}
+Copy constructor.
+
+\begin{lstlisting}[language=C++]
+Data(const Key &key, const Info &info)
+\end{lstlisting}
+Constructor for {\tt Data}. Creates new {\tt Data} object with given key and information.
+
+\begin{lstlisting}[language=C++]
+Node(const Key &key, const Info &info, Node *next, Node *previous)
+     : data(key, info)
+\end{lstlisting}
+Constructor for {\tt Node}. Assigns node's pointers.
+
+\begin{lstlisting}[language=C++]
+iterator()
+const_iterator()
+\end{lstlisting}
+Constructors for iterator classes.
+\vspace{\baselineskip}
+
+\subsection{Overloaded operators}
+
+\begin{lstlisting}[language=C++]
+Sequence<Key, Info> &operator=(const Sequence<Key, Info> &other)
+\end{lstlisting}
+Assignment operator.
+
+\newpage
+\begin{lstlisting}[language=C++]
+bool operator==(const Ring<Key, Info> &other)
+\end{lstlisting}
+Comparison operator. Returns {\tt true} if compared rings contain the same elements.
+
+\begin{lstlisting}[language=C++]
+bool operator!=(const Ring<Key, Info> &other)
+\end{lstlisting}
+Comparison operator. Returns {\tt false} if compared rings contain the same elements.
+
+\begin{lstlisting}[language=C++]
+bool iterator::operator==(const Ring<Key, Info> &other)
+bool const_iterator::operator==(const Ring<Key, Info> &other)
+\end{lstlisting}
+Comparison operators. Return {\tt true} if compared nodes of iterators are the same.
+
+\begin{lstlisting}[language=C++]
+bool iterator::operator!=(const Ring<Key, Info> &other)
+bool const_iterator::operator!=(const Ring<Key, Info> &other)
+\end{lstlisting}
+Comparison operators. Return {\tt true} if compared nodes of iterators are the same.
+
+\begin{lstlisting}[language=C++]
+Data &iterator::operator*() const
+Data &const_iterator::operator*() const
+Data *iterator::operator->() const
+Data *const_iterator::operator->() const
+\end{lstlisting}
+Dereference operators for iterators.
+
+\begin{lstlisting}[language=C++]
+iterator &iterator::operator++()
+const_iterator &const_iterator::operator++()
+iterator iterator::operator++(int)
+const_iterator const_iterator::operator++(int)
+\end{lstlisting}
+Preincrementation and postincrementation operators for iterators.
+
+\begin{lstlisting}[language=C++]
+iterator &iterator::operator--()
+const_iterator &const_iterator::operator--()
+iterator iterator::operator--(int)
+const_iterator const_iterator::operator--(int)
+\end{lstlisting}
+Predecrementation and postdecrementation operators for iterators.
+
+\subsection{Adding elements}
+
+\begin{lstlisting}[language=C++]
+void PushBack(const Key &key, const Info &info)
+\end{lstlisting}
+Method which adds new node of given key and information behind {\tt first}.
+
+\begin{lstlisting}[language=C++]
+bool Insert(const Key &key, const Info &info, 
+            const iterator &position)
+\end{lstlisting}
+Method which adds new node of given key and information before {\tt position}. Returns
+{\tt false} if {\tt position} is {\tt end()}.
+\vspace{\baselineskip}
+
+\subsection{Removing elements}
+
+\begin{lstlisting}[language=C++]
+bool PopBack()
+\end{lstlisting}
+Method which removes node behind {\tt first}. Returns {\tt false} if list is empty.
+
+\begin{lstlisting}[language=C++]
+bool Remove(const iterator &position)
+\end{lstlisting}
+Method which removes node which is pointed by {\tt position}. Returns {\tt false} if list is empty
+or if {\tt position} is {\tt end()}.
+
+\begin{lstlisting}[language=C++]
+bool Clear()
+\end{lstlisting}
+Removes all nodes. Returns {\tt false} if list is empty.
+
+\begin{lstlisting}[language=C++]
+bool RemoveAllOccurances(const Key &key)
+\end{lstlisting}
+Method which removes all nodes with {\tt key}. Returns {\tt false} if list is empty
+or there are no nodes with such a key.
+\vspace{\baselineskip}
+
+\subsection{Other methods}
+
+\begin{lstlisting}[language=C++]
+iterator Find(const Key &key, int whichOccurance = 1)
+const_iterator Find(const Key &key, int whichOccurance = 1)
+\end{lstlisting}
+Returns iterator pointing on element with {\tt key}. {\tt whichOccurance}
+tells which occurance of key has to be found. If there is no such a node returns {\tt end()}.
+
+\begin{lstlisting}[language=C++]
+bool IsEmpty() const
+\end{lstlisting}
+Returns {\tt true} if list contains no nodes.
+
+\begin{lstlisting}[language=C++]
+int Size() const
+\end{lstlisting}
+Returns private field {\tt size} which conatins number of nodes in list.
+
+\begin{lstlisting}[language=C++]
+int NumberOfOccurances(const Key &key) const
+\end{lstlisting}
+Returns number of occurances of nodes with given key.
+\vspace{\baselineskip}
+
+\subsection{Iterator methods}
+
+\begin{lstlisting}[language=C++]
+iterator begin()
+const_iterator begin() const
+\end{lstlisting}
+Return iterator pointing on {\tt first}.
+
+\begin{lstlisting}[language=C++]
+iterator end()
+const_iterator end() const
+\end{lstlisting}
+Return iterator pointing on {\tt nullptr}.
+\vspace{\baselineskip}
+
+\subsection{Split function}
+
+\begin{lstlisting}[language=C++]
+void Split(const Ring<Key, Info> &source, bool direction,
+           Ring<Key, Info> &result1, int sequence1, int rep1,
+           Ring<Key, Info> &result2, int sequence2, int rep2)
+\end{lstlisting}
+Produces two rings from another one. {\tt source} is ring from other are produced, 
+{\tt direction} tells if passage should be forward ({\tt true}) or backward ({\tt false}),
+{\tt result1} and {\tt result2} are rings in which produced ones are stored,
+{\tt sequence1}and {\tt sequence2} tell how many nodes are taken in which passage
+and eventually {\tt rep1} and {\tt rep2} tell how many passages have to be taken.
+If result1 or result2 are not empty, they are cleared.
+\newpage
+
+\subsubsection*{Example}
+
+\begin{lstlisting}[language=C++]
+Input:
+//info, keys for every node are the same
+source = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}
+
+direction = false
+
+result1 = r1
+result2 = r2
+
+sequence1 = 3
+sequence2 = 2
+
+rep1 = 2
+rep2 = 4
+
+Output:
+//only info as keys are the same
+r1 = {1, 12, 11, 8, 7, 6}
+r2 = {10, 9, 5, 4, 3, 2, 1, 12}
+\end{lstlisting}
 
 \end{document}
