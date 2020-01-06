@@ -2,6 +2,7 @@
 #define RING_HPP
 
 #include <string>
+#include <iostream>
 
 template <typename Key, typename Info>
 class Ring
@@ -28,7 +29,6 @@ public:
 
     iterator begin();
     iterator end();
-
     const_iterator begin() const;
     const_iterator end() const;
 
@@ -56,6 +56,8 @@ private:
         Data data;
         Node *next;
         Node *previous;
+
+        Node(const Key &key, const Info &info, Node *next, Node *previous);
     };
 
     Node *first;
@@ -63,6 +65,33 @@ private:
 };
 
 // ctors and dtor
+template <typename Key, typename Info>
+Ring<Key, Info>::Ring()
+{
+    first = nullptr;
+    size = 0;
+}
+
+template <typename Key, typename Info>
+Ring<Key, Info>::~Ring()
+{
+}
+
+template <typename Key, typename Info>
+Ring<Key, Info>::Data::Data(const Key &key, const Info &info)
+{
+    this->key = key;
+    this->info = info;
+}
+
+template <typename Key, typename Info>
+Ring<Key, Info>::Node::Node(const Key &key, const Info &info, Node *next, Node *previous) : data(key, info)
+{
+    this->next = next;
+    this->previous = previous;
+}
+
+
 
 #include "iterators.hpp"
 
