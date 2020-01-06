@@ -30,7 +30,7 @@
 The goal of the project is to implement doubly linked circular list (or as some call
 it – ring) in the C++ programming language with use of templates. As in the previous 
 project the requirement is to create a container with two generic parameters – {\tt Key}
-and {\tt Info}. One more requirement was to use iterators, so {\tt Ring} has to conatin
+and {\tt Info}. One more requirement was to use iterators, so {\tt Ring} has to contain
 {\tt iterator} and {\tt const\_iterator} classes.
 
 \indent
@@ -185,7 +185,7 @@ Returns {\tt true} if list contains no nodes.
 \begin{lstlisting}[language=C++]
 int Size() const
 \end{lstlisting}
-Returns private field {\tt size} which conatins number of nodes in list.
+Returns private field {\tt size} which contains number of nodes in list.
 
 \begin{lstlisting}[language=C++]
 int NumberOfOccurances(const Key &key) const
@@ -246,5 +246,82 @@ Output:
 r1 = {1, 12, 11, 8, 7, 6}
 r2 = {10, 9, 5, 4, 3, 2, 1, 12}
 \end{lstlisting}
+\vspace{\baselineskip}
+
+\section{Decisions and changes}
+
+Based on experience with previous project I decided to create two structs for keeping elements
+of list. One is {\tt Data} which is public struct contining {\tt Key} and {\tt Info}.
+The second is private {\tt Node} which contains {\tt Data}, {\tt next} and {\tt previous}.
+This makes encapsulations unbroken while keeping the implementation unrevealed.
+
+On the very beginning class contained {\tt Print} method. Unfortunately, someone could
+make a list of non-printable objects and this could end with serious error. To make testing
+possible I implemented this function in testing source files.
+
+\section{Testing}
+
+\subsection{Introduction}
+
+Once again I decided to use Catch2 testing framework. Tests are performed in two files.
+The first one contains all methods testing, the second one {\tt Split} function testing.
+For the purpose of memory leaks checking I used Valgrind software.
+
+\subsection{Structure of tests}
+
+\subsubsection*{Empty list}
+
+\begin{itemize}
+    \item Printing list
+    \item Checking if list is empty
+    \item Using removal methods
+    \item Using {\tt Find} method
+\end{itemize}
+
+\subsubsection*{Filling list}
+
+\begin{itemize}
+    \item Adding nodes behind {\tt first}
+    \item Adding nodes inside the list
+\end{itemize}
+
+\subsubsection*{Removing nodes from list}
+
+\begin{itemize}
+    \item Removing nodes behind {\tt first}
+    \item Removing selected nodes
+    \item Removing all nodes
+    \item Removing all nodes with chosen key
+\end{itemize}
+
+\subsubsection*{Comparison operators}
+
+\begin{itemize}
+    \item Equality operator
+    \item Inequality operator
+\end{itemize}
+
+\subsubsection*{Copying lists}
+
+\begin{itemize}
+    \item Copying with copy constructor
+    \item Copying with assignment operator
+\end{itemize}
+
+\subsubsection*{Other methods}
+
+\begin{itemize}
+    \item Size method
+    \item Find method
+    \item Checking number of occurances
+\end{itemize}
+
+\subsubsection*{Split function}
+
+\begin{itemize}
+    \item Splitting empty list
+    \item Splitting in normal cases
+    \item Splitting with wrong parameters
+\end{itemize}
 
 \end{document}
