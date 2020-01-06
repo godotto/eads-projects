@@ -15,6 +15,11 @@ void Split(const Ring<Key, Info> &source, bool direction,
 
     if (source.IsEmpty())
         return;
+
+    if (rep1 < 0)
+        rep1 = 0;
+    if (rep2 < 0)
+        rep2 = 0;
     
     typename Ring<Key, Info>::const_iterator it = source.begin();
 
