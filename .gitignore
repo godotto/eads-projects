@@ -4,6 +4,10 @@
 # LaTeX cache
 __latexindent_temp.tex
 report.synctex.gz
+*.aux
+*.fdb_latexmk
+*fls
+*log
 
 # binaries and object files
 bin/
