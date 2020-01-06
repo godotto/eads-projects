@@ -72,9 +72,7 @@ Ring<Key, Info>::Ring()
 }
 
 template <typename Key, typename Info>
-Ring<Key, Info>::~Ring()
-{
-}
+Ring<Key, Info>::~Ring() { Clear(); }
 
 template <typename Key, typename Info>
 Ring<Key, Info>::Ring(const Ring<Key, Info> &other)
@@ -102,6 +100,26 @@ Ring<Key, Info>::Node::Node(const Key &key, const Info &info, Node *next, Node *
 {
     this->next = next;
     this->previous = previous;
+}
+
+// assignment operator
+
+template <typename Key, typename Info>
+Ring<Key, Info> &Ring<Key, Info>::operator=(const Ring<Key, Info> &other)
+{
+    if (this == &other)
+        return *this;
+
+    Clear();
+
+    const_iterator it = other.begin();
+    for (int i = 0; i < other.size; i++)
+    {
+        PushBack(it->key, it->info);
+        ++it;
+    }
+
+    return *this;
 }
 
 // comparison operators
