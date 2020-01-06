@@ -125,7 +125,50 @@ typename Ring<Key, Info>::const_iterator Ring<Key, Info>::end() const
     return it;
 }
 
+// adding methods
 
+template <typename Key, typename Info>
+void Ring<Key, Info>::PushBack(const Key &key, const Info &info)
+{
+    Node *newNode;
+    if (first == nullptr)
+    {
+        newNode = new Node(key, info, nullptr, nullptr);
+        newNode->next = newNode;
+        newNode->previous = newNode;
+        first = newNode;
+        size++;
+    }
+    else
+    {
+        newNode = new Node(key, info, first, first->previous);
+        first->previous->next = newNode;
+        first->previous = newNode;
+        size++;
+    }
+}
+
+// other methods
+template <typename Key, typename Info>
+bool Ring<Key, Info>::IsEmpty() const
+{
+    if (size == 0)
+        return true;
+    else
+        return false;
+}
+
+template <typename Key, typename Info>
+void Ring<Key, Info>::Print() const
+{
+    const_iterator it = begin();
+    
+    for (int i = 0; i < size; i++)
+    {        
+        std::cout << "Key: " << it->key << " Info: " << it->info << std::endl;
+        ++it;
+    }
+}
 
 #include "iterators.hpp"
 
