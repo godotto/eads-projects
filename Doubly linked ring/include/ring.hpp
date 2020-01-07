@@ -32,19 +32,19 @@ public:
     const_iterator begin() const;
     const_iterator end() const;
 
-    void PushBack(const Key &key, const Info &info);
-    bool Insert(const Key &key, const Info &info, const iterator &position);
+    void PushBack(const Key &key, const Info &info);                         // puts new node before first
+    bool Insert(const Key &key, const Info &info, const iterator &position); // puts new node before node pointed by position
 
-    bool PopBack();
-    bool Remove(const iterator &position);
-    bool Clear();
-    bool RemoveAllOccurances(const Key &key);
+    bool PopBack();                           // removes node before first
+    bool Remove(const iterator &position);    // removes node pointed by position
+    bool Clear();                             // removes all nodes
+    bool RemoveAllOccurances(const Key &key); // removes all nodes with key passed in parameter
 
-    iterator Find(const Key &key, int whichOccurance = 1);
-    const_iterator Find(const Key &key, int whichOccurance = 1) const;
-    bool IsEmpty() const;
-    int Size() const;
-    int NumberOfOccurances(const Key &key) const;
+    iterator Find(const Key &key, int whichOccurance = 1);             // returns iterator pointing entry with key passed in parameter
+    const_iterator Find(const Key &key, int whichOccurance = 1) const; // returns const_iterator pointing entry with key passed in parameter
+    bool IsEmpty() const;                                              // returns true if list has no nodes
+    int Size() const;                                                  // returns value of private field size
+    int NumberOfOccurances(const Key &key) const;                      // return number of entries with key passed in parameter
 
 private:
     struct Node
@@ -256,7 +256,7 @@ bool Ring<Key, Info>::Remove(const iterator &position)
 {
     if (position == end() || IsEmpty())
         return false;
-    else if(size == 1)
+    else if (size == 1)
         PopBack();
     else
     {
