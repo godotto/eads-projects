@@ -10,8 +10,8 @@ public:
     Tree(const Tree<Key, Info> &other);
 
     Tree<Key, Info> &operator=(const Tree<Key, Info> &other);
-    bool operator operator==(const Tree<Key, Info> &other) const;
-    bool operator operator!=(const Tree<Key, Info> &other) const;
+    bool operator==(const Tree<Key, Info> &other) const;
+    bool operator!=(const Tree<Key, Info> &other) const;
 
     void Insert(const Key &key, const Info &info);
     bool Remove(const Key &key);
@@ -50,6 +50,8 @@ private:
     Node *DoubleRotateLeft(Node *node);
     Node *DoubleRotateRight(Node *node);
 
+    Node *Insert(Node *parent, const Key &key, const Info &info);
+
     void PrintInorder(Node *node) const;
     void PrintPreorder(Node *node) const;
     void PrintPostorder(Node *node) const;
@@ -72,9 +74,59 @@ Tree<Key, Info>::Node::Node(const Key &key, const Info &info)
 {
     this->key = key;
     this->info = info;
-    height = 1;
+    height = 0;
     left = nullptr;
-    right = nullptr
+    right = nullptr;
+}
+
+// insertion
+
+template <typename Key, typename Info>
+typename Tree<Key, Info>::Node *Tree<Key, Info>::Insert(Node *parent, const Key &key, const Info &info)
+{
+    if (parent == nullptr)
+    {
+        parent = new Node(key, info);
+        size++;
+    }
+    else if (key < parent->key)
+    {
+        parent->left = Insert(parent->left, key, info);
+
+        if (GetBalance(parent) > 1)
+        {
+            if (key < parent->left->key)
+                parent = SingleRotateRight(parent);
+            else
+                parent = DoubleRotateRight(parent);
+        }
+    }
+    else if (key > parent->key)
+    {
+        parent->right = Insert(parent->right, key, info);
+
+        if (GetBalance(parent) < -1)
+        {
+            if (key > parent->right->key)
+                parent = SingleRotateLeft(parent);
+            else
+                parent = DoubleRotateLeft(parent);
+        }
+    }
+    else
+    {
+        parent->info = info;
+        return parent;
+    }
+
+    parent->height = UpdateHeight(Height(parent->left), Height(parent->right));
+    return parent;
+}
+
+template <typename Key, typename Info>
+void Tree<Key, Info>::Insert(const Key &key, const Info &info)
+{
+    Insert(root, key, info);
 }
 
 // operations on tree
@@ -115,8 +167,8 @@ typename Tree<Key, Info>::Node *Tree<Key, Info>::SingleRotateLeft(Node *node)
     node->right = newParent->left;
     newParent->left = node;
 
-    newParent->height = UpdateHeight(newParent->left, newParent->right);
-    node->height = UpdateHeight(node->left, node->right);
+    newParent->height = UpdateHeight(Height(newParent->left), Height(newParent->right));
+    node->height = UpdateHeight(Height(node->left), Height(node->right));
 
     return newParent;
 }
@@ -130,8 +182,8 @@ typename Tree<Key, Info>::Node *Tree<Key, Info>::SingleRotateRight(Node *node)
     node->left = newParent->right;
     newParent->right = node;
 
-    newParent->height = UpdateHeight(newParent->left, newParent->right);
-    node->height = UpdateHeight(node->left, node->right);
+    newParent->height = UpdateHeight(Height(newParent->left), Height(newParent->right));
+    node->height = UpdateHeight(Height(node->left), Height(node->right));
 
     return newParent;
 }
