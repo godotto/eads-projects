@@ -378,8 +378,8 @@ void Tree<Key, Info>::CopyTree(Node *&newTree, Node *copiedTree)
     else
     {
         newTree = Insert(newTree, copiedTree->key, copiedTree->info);
-        CopyTree(newTree, copiedTree->left);
         CopyTree(newTree, copiedTree->right);
+        CopyTree(newTree, copiedTree->left);
     }
 }
 
