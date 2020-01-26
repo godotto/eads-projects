@@ -61,6 +61,8 @@ private:
     void PrintInorder(Node *node) const;
     void PrintPreorder(Node *node) const;
     void PrintPostorder(Node *node) const;
+
+    void CopyTree(Node *&newTree, Node *copiedTree);
 };
 
 // ctors and dtor
@@ -74,6 +76,14 @@ Tree<Key, Info>::Tree()
 
 template <typename Key, typename Info>
 Tree<Key, Info>::~Tree() { Clear(); }
+
+template <typename Key, typename Info>
+Tree<Key, Info>::Tree(const Tree<Key, Info> &other)
+{
+    root = nullptr;
+    CopyTree(root, other.root);
+    size = other.size;
+}
 
 template <typename Key, typename Info>
 Tree<Key, Info>::Node::Node(const Key &key, const Info &info)
@@ -92,6 +102,20 @@ Tree<Key, Info>::Node::~Node()
         delete left;
     if (right != nullptr)
         delete right;
+}
+
+// operators
+
+template <typename Key, typename Info>
+Tree<Key, Info> &Tree<Key, Info>::operator=(const Tree<Key, Info> &other)
+{
+    if (this == &other)
+        return *this;
+
+    Clear();
+    CopyTree(root, other.root);
+
+    return *this;
 }
 
 // insertion
@@ -320,5 +344,18 @@ bool Tree<Key, Info>::IsEmpty() const
 
 template <typename Key, typename Info>
 int Tree<Key, Info>::Size() const { return size; }
+
+template <typename Key, typename Info>
+void Tree<Key, Info>::CopyTree(Node *&newTree, Node *copiedTree)
+{
+    if (copiedTree == nullptr)
+        return;
+    else
+    {
+        newTree = Insert(newTree, copiedTree->key, copiedTree->info);
+        CopyTree(newTree, copiedTree->left);
+        CopyTree(newTree, copiedTree->right);
+    }
+}
 
 #endif
