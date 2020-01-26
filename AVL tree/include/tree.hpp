@@ -126,7 +126,7 @@ typename Tree<Key, Info>::Node *Tree<Key, Info>::Insert(Node *parent, const Key 
 template <typename Key, typename Info>
 void Tree<Key, Info>::Insert(const Key &key, const Info &info)
 {
-    Insert(root, key, info);
+    root = Insert(root, key, info);
 }
 
 // operations on tree
