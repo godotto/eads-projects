@@ -12,8 +12,8 @@ public:
     Tree(const Tree<Key, Info> &other);
 
     Tree<Key, Info> &operator=(const Tree<Key, Info> &other);
-    bool operator==(const Tree<Key, Info> &other) const;
-    bool operator!=(const Tree<Key, Info> &other) const;
+    bool operator==(const Tree<Key, Info> &other);
+    bool operator!=(const Tree<Key, Info> &other);
 
     void Insert(const Key &key, const Info &info);
     void Remove(const Key &key);
@@ -63,6 +63,7 @@ private:
     void PrintPostorder(Node *node) const;
 
     void CopyTree(Node *&newTree, Node *copiedTree);
+    void CompareTrees(Node *left, Node *right, bool isEqual);
 };
 
 // ctors and dtor
@@ -116,6 +117,28 @@ Tree<Key, Info> &Tree<Key, Info>::operator=(const Tree<Key, Info> &other)
     CopyTree(root, other.root);
 
     return *this;
+}
+
+template <typename Key, typename Info>
+bool Tree<Key, Info>::operator==(const Tree<Key, Info> &other)
+{
+    if (size != other.size)
+        return false;
+    else
+    {
+        bool isEqual = true;
+        CompareTrees(root, other.root, isEqual);
+        if (isEqual)
+            return true;
+        else
+            return false;
+    }
+}
+
+template <typename Key, typename Info>
+bool Tree<Key, Info>::operator!=(const Tree<Key, Info> &other)
+{
+    return !operator==(other);
 }
 
 // insertion
@@ -355,6 +378,20 @@ void Tree<Key, Info>::CopyTree(Node *&newTree, Node *copiedTree)
         newTree = Insert(newTree, copiedTree->key, copiedTree->info);
         CopyTree(newTree, copiedTree->left);
         CopyTree(newTree, copiedTree->right);
+    }
+}
+
+template <typename Key, typename Info>
+void Tree<Key, Info>::CompareTrees(Node *left, Node *right, bool isEqual)
+{
+    if (left == nullptr || right == nullptr || !isEqual)
+        return;
+    else
+    {
+        CompareTrees(left->left, right->left, isEqual);
+        if ((left->key != right->key) || (left->info != right->info))
+            isEqual = false;
+        CompareTrees(left->right, right->left, isEqual);
     }
 }
 
