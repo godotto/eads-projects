@@ -1,6 +1,8 @@
 #ifndef TREE_HPP
 #define TREE_HPP
 
+#include <iostream>
+
 template <typename Key, typename Info>
 class Tree
 {
@@ -14,7 +16,7 @@ public:
     bool operator!=(const Tree<Key, Info> &other) const;
 
     void Insert(const Key &key, const Info &info);
-    bool Remove(const Key &key);
+    void Remove(const Key &key);
     bool Clear();
 
     bool IsEmpty() const;
@@ -37,6 +39,7 @@ private:
         int height;
 
         Node(const Key &key, const Info &info);
+        ~Node();
     };
 
     Node *root;
@@ -49,8 +52,11 @@ private:
     Node *SingleRotateRight(Node *node);
     Node *DoubleRotateLeft(Node *node);
     Node *DoubleRotateRight(Node *node);
+    Node *GetMinimalKey(Node *node) const;
 
     Node *Insert(Node *parent, const Key &key, const Info &info);
+    Node *Remove(Node *node, const Key &key);
+    void Clear(Node *node);
 
     void PrintInorder(Node *node) const;
     void PrintPreorder(Node *node) const;
@@ -77,6 +83,15 @@ Tree<Key, Info>::Node::Node(const Key &key, const Info &info)
     height = 0;
     left = nullptr;
     right = nullptr;
+}
+
+template <typename Key, typename Info>
+Tree<Key, Info>::Node::~Node()
+{
+    if (left != nullptr)
+        delete left;
+    if (right != nullptr)
+        delete right;
 }
 
 // insertion
@@ -127,6 +142,82 @@ template <typename Key, typename Info>
 void Tree<Key, Info>::Insert(const Key &key, const Info &info)
 {
     root = Insert(root, key, info);
+}
+
+// removal
+
+template <typename Key, typename Info>
+typename Tree<Key, Info>::Node *Tree<Key, Info>::Remove(Node *node, const Key &key)
+{
+    if (node == nullptr)
+        return nullptr;
+
+    if (key < node->key)
+        node->left = Remove(node->left, key);
+    else if (key > node->key)
+        node->right = Remove(node->right, key);
+
+    else if (node->left != nullptr && node->right != nullptr)
+    {
+        Node *temp = GetMinimalKey(node->right);
+        node->key = temp->key;
+        node->info = temp->info;
+        node->right = Remove(node->right, node->key);
+    }
+    else
+    {
+        Node *temp = node;
+        if (node->right == nullptr)
+            node = node->left;
+        else
+            node = node->right;
+
+        size--;
+
+        delete temp;
+    }
+
+    if (node == nullptr)
+        return node;
+
+    node->height = UpdateHeight(Height(node->left), Height(node->right));
+
+    if (GetBalance(node) > 1)
+    {
+        if (key < node->left->key)
+            node = SingleRotateRight(node);
+        else
+            node = DoubleRotateRight(node);
+    }
+    else if (GetBalance(node) < -1)
+    {
+        if (key > node->right->key)
+            node = SingleRotateLeft(node);
+        else
+            node = DoubleRotateLeft(node);
+    }
+
+    return node;
+}
+
+template <typename Key, typename Info>
+void Tree<Key, Info>::Remove(const Key &key)
+{
+    root = Remove(root, key);
+}
+
+template <typename Key, typename Info>
+bool Tree<Key, Info>::Clear()
+{
+    if (IsEmpty())
+        return false;
+    else
+    {
+        delete root;
+        root = nullptr;
+        size = 0;
+        return true;
+    }
 }
 
 // operations on tree
@@ -200,6 +291,20 @@ typename Tree<Key, Info>::Node *Tree<Key, Info>::DoubleRotateRight(Node *node)
 {
     node->left = SingleRotateLeft(node->left);
     return SingleRotateRight(node);
+}
+
+template <typename Key, typename Info>
+typename Tree<Key, Info>::Node *Tree<Key, Info>::GetMinimalKey(Node *node) const
+{
+    if (node == nullptr)
+        return nullptr;
+    else
+    {
+        if (node->left == nullptr)
+            return node;
+        else
+            return GetMinimalKey(node->left);
+    }
 }
 
 // other methods
