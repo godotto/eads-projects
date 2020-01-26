@@ -150,4 +150,18 @@ typename Tree<Key, Info>::Node *Tree<Key, Info>::DoubleRotateRight(Node *node)
     return SingleRotateRight(node);
 }
 
+// other methods
+
+template <typename Key, typename Info>
+bool Tree<Key, Info>::IsEmpty() const
+{
+    if (size == 0)
+        return true;
+    else
+        return false;
+}
+
+template <typename Key, typename Info>
+int Tree<Key, Info>::Size() const { return size; }
+
 #endif
