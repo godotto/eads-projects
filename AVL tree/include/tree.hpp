@@ -51,4 +51,26 @@ private:
     void PrintPostorder(Node *node) const;
 };
 
+// ctors and dtor
+
+template <typename Key, typename Info>
+Tree<Key, Info>::Tree()
+{
+    root = nullptr;
+    size = 0;
+}
+
+template <typename Key, typename Info>
+Tree<Key, Info>::~Tree() { Clear(); }
+
+template <typename Key, typename Info>
+Tree<Key, Info>::Node::Node(const Key &key, const Info &info)
+{
+    this->key = key;
+    this->info = info;
+    height = 1;
+    left = nullptr;
+    right = nullptr
+}
+
 #endif
