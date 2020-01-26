@@ -26,6 +26,7 @@ public:
     void PrintInorder() const;
     void PrintPreorder() const;
     void PrintPostorder() const;
+    void PrintVisually() const;
 
 private:
     struct Node
@@ -61,6 +62,7 @@ private:
     void PrintInorder(Node *node) const;
     void PrintPreorder(Node *node) const;
     void PrintPostorder(Node *node) const;
+    void PrintVisually(Node *node, int indent) const;
 
     void CopyTree(Node *&newTree, Node *copiedTree);
     void CompareTrees(Node *left, Node *right, bool isEqual);
@@ -393,6 +395,80 @@ void Tree<Key, Info>::CompareTrees(Node *left, Node *right, bool isEqual)
             isEqual = false;
         CompareTrees(left->right, right->left, isEqual);
     }
+}
+
+// printing methods
+
+template <typename Key, typename Info>
+void Tree<Key, Info>::PrintInorder(Node *node) const
+{
+    if (node == nullptr)
+        return;
+    else
+    {
+        PrintInorder(node->left);
+        std::cout << "(" << node->key << ", " << node->info << ")\n";
+        PrintInorder(node->right);
+    }
+}
+
+template <typename Key, typename Info>
+void Tree<Key, Info>::PrintInorder() const { PrintInorder(root); }
+
+template <typename Key, typename Info>
+void Tree<Key, Info>::PrintPreorder(Node *node) const
+{
+    if (node == nullptr)
+        return;
+    else
+    {
+        std::cout << "(" << node->key << ", " << node->info << ")\n";
+        PrintPreorder(node->left);
+        PrintPreorder(node->right);
+    }
+}
+
+template <typename Key, typename Info>
+void Tree<Key, Info>::PrintPreorder() const { PrintPreorder(root); }
+
+template <typename Key, typename Info>
+void Tree<Key, Info>::PrintPostorder(Node *node) const
+{
+    if (node == nullptr)
+        return;
+    else
+    {
+        PrintPostorder(node->left);
+        PrintPostorder(node->right);
+        std::cout << "(" << node->key << ", " << node->info << ")\n";
+    }
+}
+
+template <typename Key, typename Info>
+void Tree<Key, Info>::PrintPostorder() const { PrintPostorder(root); }
+
+template <typename Key, typename Info>
+void Tree<Key, Info>::PrintVisually(Node *node, int indent) const
+{
+    if (node == nullptr)
+        return;
+    else
+    {
+        indent += 10;
+
+        PrintVisually(node->right, indent);
+        std::cout << std::endl;
+        for (int i = 10; i < indent; i++)
+            std::cout << " ";
+        std::cout << "(" << node->key << ", " << node->info << ")\n";
+        PrintVisually(node->left, indent);
+    }
+}
+
+template <typename Key, typename Info>
+void Tree<Key, Info>::PrintVisually() const
+{
+    PrintVisually(root, 0);
 }
 
 #endif
