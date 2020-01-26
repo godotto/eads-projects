@@ -77,4 +77,77 @@ Tree<Key, Info>::Node::Node(const Key &key, const Info &info)
     right = nullptr
 }
 
+// operations on tree
+
+template <typename Key, typename Info>
+int Tree<Key, Info>::Height(Node *node) const
+{
+    if (node == nullptr)
+        return -1;
+    else
+        return node->height;
+}
+
+template <typename Key, typename Info>
+int Tree<Key, Info>::GetBalance(Node *node) const
+{
+    if (node == nullptr)
+        return 0;
+    else
+        return Height(node->left) - Height(node->right);
+}
+
+template <typename Key, typename Info>
+int Tree<Key, Info>::UpdateHeight(int leftHeight, int rightHeight)
+{
+    if (leftHeight > rightHeight)
+        return leftHeight + 1;
+    else
+        return rightHeight + 1;
+}
+
+template <typename Key, typename Info>
+typename Tree<Key, Info>::Node *Tree<Key, Info>::SingleRotateLeft(Node *node)
+{
+    Node *newParent;
+
+    newParent = node->right;
+    node->right = newParent->left;
+    newParent->left = node;
+
+    newParent->height = UpdateHeight(newParent->left, newParent->right);
+    node->height = UpdateHeight(node->left, node->right);
+
+    return newParent;
+}
+
+template <typename Key, typename Info>
+typename Tree<Key, Info>::Node *Tree<Key, Info>::SingleRotateRight(Node *node)
+{
+    Node *newParent;
+
+    newParent = node->left;
+    node->left = newParent->right;
+    newParent->right = node;
+
+    newParent->height = UpdateHeight(newParent->left, newParent->right);
+    node->height = UpdateHeight(node->left, node->right);
+
+    return newParent;
+}
+
+template <typename Key, typename Info>
+typename Tree<Key, Info>::Node *Tree<Key, Info>::DoubleRotateLeft(Node *node)
+{
+    node->right = SingleRotateRight(node->right);
+    return SingleRotateLeft(node);
+}
+
+template <typename Key, typename Info>
+typename Tree<Key, Info>::Node *Tree<Key, Info>::DoubleRotateRight(Node *node)
+{
+    node->left = SingleRotateLeft(node->left);
+    return SingleRotateRight(node);
+}
+
 #endif
