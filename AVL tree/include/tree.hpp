@@ -42,9 +42,13 @@ private:
     Node *root;
     int size;
 
-    Node *RotateLeft(Node *node);
-    Node *RotateRight(Node *node);
     int GetBalance(Node *node) const;
+    int Height(Node *node) const;
+    int UpdateHeight(int leftHeight, int rightHeight);
+    Node *SingleRotateLeft(Node *node);
+    Node *SingleRotateRight(Node *node);
+    Node *DoubleRotateLeft(Node *node);
+    Node *DoubleRotateRight(Node *node);
 
     void PrintInorder(Node *node) const;
     void PrintPreorder(Node *node) const;
