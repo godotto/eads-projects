@@ -53,3 +53,37 @@ TEST_CASE("Filling tree and printing")
     tree1.PrintVisually();
     std::cout << std::endl;
 }
+
+TEST_CASE("Removing from tree")
+{
+    Tree<int, int> tree1;
+
+    tree1.Insert(3, 1);
+    tree1.Insert(-1, 1);
+    tree1.Insert(7, 1);
+    tree1.Insert(10, 1);
+    tree1.Insert(-12, 1);
+    tree1.Insert(9, 1);
+    tree1.Insert(11, 1);
+
+    SECTION("removing chosen elements")
+    {
+        std::cout << std::endl;
+        tree1.PrintInorder();
+        tree1.Remove(10);
+        std::cout << std::endl;
+        tree1.PrintInorder();
+        tree1.Remove(3);
+        std::cout << std::endl;
+        tree1.PrintInorder();
+        tree1.Remove(100);
+        std::cout << std::endl;
+        tree1.PrintInorder();
+    }
+
+    SECTION("removing all elements")
+    {
+        REQUIRE(tree1.Clear());
+        tree1.PrintInorder();
+    }
+}
