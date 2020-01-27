@@ -87,3 +87,33 @@ TEST_CASE("Removing from tree")
         tree1.PrintInorder();
     }
 }
+
+TEST_CASE("Comparison operators")
+{
+    Tree<int, int> tree1;
+
+    tree1.Insert(3, 1);
+    tree1.Insert(-1, 1);
+    tree1.Insert(7, 1);
+    tree1.Insert(10, 1);
+    tree1.Insert(-12, 1);
+    tree1.Insert(9, 1);
+    tree1.Insert(11, 1);
+
+    Tree<int, int> tree2;
+
+    tree2.Insert(3, 1);
+    tree2.Insert(-1, 1);
+    tree2.Insert(7, 1);
+    tree2.Insert(10, 1);
+    tree2.Insert(-12, 1);
+    tree2.Insert(9, 1);
+    tree2.Insert(11, 1);
+
+    REQUIRE((tree1 == tree2));
+    REQUIRE_FALSE((tree1 != tree2));
+
+    tree2.Insert(3, 2);
+    REQUIRE((tree1 != tree2));
+    REQUIRE_FALSE((tree1 == tree2));
+}
