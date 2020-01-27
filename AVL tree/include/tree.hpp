@@ -48,7 +48,7 @@ private:
 
     int GetBalance(Node *node) const;
     int Height(Node *node) const;
-    int UpdateHeight(int leftHeight, int rightHeight);
+    int UpdateHeight(int leftHeight, int rightHeight) const;
     Node *SingleRotateLeft(Node *node);
     Node *SingleRotateRight(Node *node);
     Node *DoubleRotateLeft(Node *node);
@@ -66,7 +66,7 @@ private:
 
     Node *Search(Node *node, const Key &key) const;
     void CopyTree(Node *&newTree, Node *copiedTree);
-    void CompareTrees(Node *left, Node *right, bool isEqual);
+    void CompareTrees(Node *left, Node *right, bool &isEqual);
 };
 
 // ctors and dtor
@@ -294,7 +294,7 @@ int Tree<Key, Info>::GetBalance(Node *node) const
 }
 
 template <typename Key, typename Info>
-int Tree<Key, Info>::UpdateHeight(int leftHeight, int rightHeight)
+int Tree<Key, Info>::UpdateHeight(int leftHeight, int rightHeight) const
 {
     if (leftHeight > rightHeight)
         return leftHeight + 1;
@@ -408,7 +408,7 @@ void Tree<Key, Info>::CopyTree(Node *&newTree, Node *copiedTree)
 }
 
 template <typename Key, typename Info>
-void Tree<Key, Info>::CompareTrees(Node *left, Node *right, bool isEqual)
+void Tree<Key, Info>::CompareTrees(Node *left, Node *right, bool &isEqual)
 {
     if (left == nullptr || right == nullptr || !isEqual)
         return;
@@ -417,7 +417,7 @@ void Tree<Key, Info>::CompareTrees(Node *left, Node *right, bool isEqual)
         CompareTrees(left->left, right->left, isEqual);
         if ((left->key != right->key) || (left->info != right->info))
             isEqual = false;
-        CompareTrees(left->right, right->left, isEqual);
+        CompareTrees(left->right, right->right, isEqual);
     }
 }
 
