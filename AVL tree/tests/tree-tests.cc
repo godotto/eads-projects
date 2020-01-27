@@ -7,9 +7,13 @@ TEST_CASE("Empty tree")
 
     SECTION("printing tree")
     {
+        std::cout << "----1----\n";
         tree1.PrintInorder();
+        std::cout << "----2----\n";
         tree1.PrintPreorder();
+        std::cout << "----3----\n";
         tree1.PrintPostorder();
+        std::cout << "----4----\n";
         tree1.PrintVisually();
     }
 
@@ -44,12 +48,16 @@ TEST_CASE("Filling tree and printing")
     tree1.Insert(11, 1);
 
     std::cout << std::endl;
+    std::cout << "----5----\n";
     tree1.PrintInorder();
     std::cout << std::endl;
+    std::cout << "----6----\n";
     tree1.PrintPreorder();
     std::cout << std::endl;
+    std::cout << "----7----\n";
     tree1.PrintPostorder();
     std::cout << std::endl;
+    std::cout << "----8----\n";
     tree1.PrintVisually();
     std::cout << std::endl;
 }
@@ -69,21 +77,26 @@ TEST_CASE("Removing from tree")
     SECTION("removing chosen elements")
     {
         std::cout << std::endl;
+        std::cout << "----9----\n";
         tree1.PrintInorder();
         tree1.Remove(10);
         std::cout << std::endl;
+        std::cout << "----10----\n";
         tree1.PrintInorder();
         tree1.Remove(3);
         std::cout << std::endl;
+        std::cout << "----11----\n";
         tree1.PrintInorder();
         tree1.Remove(100);
         std::cout << std::endl;
+        std::cout << "----12----\n";
         tree1.PrintInorder();
     }
 
     SECTION("removing all elements")
     {
         REQUIRE(tree1.Clear());
+        std::cout << "----13----\n";
         tree1.PrintInorder();
     }
 }
@@ -136,6 +149,7 @@ TEST_CASE("Copying tree")
 
         delete tree1;
         std::cout << std::endl;
+        std::cout << "----14----\n";
         tree2->PrintInorder();
         delete tree2;
     }
@@ -157,6 +171,7 @@ TEST_CASE("Copying tree")
 
         delete tree1;
         std::cout << std::endl;
+        std::cout << "----15----\n";
         tree2->PrintInorder();
         delete tree2;
     }
