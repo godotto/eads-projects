@@ -161,3 +161,39 @@ TEST_CASE("Copying tree")
         delete tree2;
     }
 }
+
+TEST_CASE("Other methods")
+{
+    Tree<int, int> tree1;
+
+    tree1.Insert(3, 1);
+    tree1.Insert(-1, 1);
+    tree1.Insert(7, 1);
+    tree1.Insert(10, 1);
+    tree1.Insert(-12, 1);
+    tree1.Insert(9, 1);
+    tree1.Insert(11, 1);
+
+    SECTION("size method")
+    {
+        REQUIRE(tree1.Size() == 7);
+    }
+
+    SECTION("checking if tree is empty")
+    {
+        REQUIRE_FALSE(tree1.IsEmpty());
+        tree1.Clear();
+        REQUIRE(tree1.IsEmpty());
+    }
+
+    SECTION("searching")
+    {
+        REQUIRE(tree1.Search(3));
+        REQUIRE(tree1.Search(10));
+        REQUIRE_FALSE(tree1.Search(-3));
+        REQUIRE_FALSE(tree1.Search(21));
+
+        tree1.Remove(3);
+        REQUIRE_FALSE(tree1.Search(3));
+    }
+}
