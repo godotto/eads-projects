@@ -434,7 +434,16 @@ void Tree<Key, Info>::PrintInorder(Node *node) const
 }
 
 template <typename Key, typename Info>
-void Tree<Key, Info>::PrintInorder() const { PrintInorder(root); }
+void Tree<Key, Info>::PrintInorder() const
+{
+    if (IsEmpty())
+    {
+        std::cout << "Tree is empty\n";
+        return;
+    }
+
+    PrintInorder(root);
+}
 
 template <typename Key, typename Info>
 void Tree<Key, Info>::PrintPreorder(Node *node) const
@@ -450,7 +459,16 @@ void Tree<Key, Info>::PrintPreorder(Node *node) const
 }
 
 template <typename Key, typename Info>
-void Tree<Key, Info>::PrintPreorder() const { PrintPreorder(root); }
+void Tree<Key, Info>::PrintPreorder() const
+{
+    if (IsEmpty())
+    {
+        std::cout << "Tree is empty\n";
+        return;
+    }
+
+    PrintPreorder(root);
+}
 
 template <typename Key, typename Info>
 void Tree<Key, Info>::PrintPostorder(Node *node) const
@@ -466,7 +484,15 @@ void Tree<Key, Info>::PrintPostorder(Node *node) const
 }
 
 template <typename Key, typename Info>
-void Tree<Key, Info>::PrintPostorder() const { PrintPostorder(root); }
+void Tree<Key, Info>::PrintPostorder() const
+{
+    if (IsEmpty())
+    {
+        std::cout << "Tree is empty\n";
+        return;
+    }
+    PrintPostorder(root);
+}
 
 template <typename Key, typename Info>
 void Tree<Key, Info>::PrintVisually(Node *node, int indent) const
@@ -489,6 +515,12 @@ void Tree<Key, Info>::PrintVisually(Node *node, int indent) const
 template <typename Key, typename Info>
 void Tree<Key, Info>::PrintVisually() const
 {
+    if (IsEmpty())
+    {
+        std::cout << "Tree is empty\n";
+        return;
+    }
+
     PrintVisually(root, 0);
 }
 
