@@ -239,7 +239,7 @@ typename Tree<Key, Info>::Node *Tree<Key, Info>::Remove(Node *node, const Key &k
     {
         if (GetBalance(node->left) >= 0)
             return SingleRotateRight(node);
-        else if(GetBalance(node->left) < 0)
+        else if (GetBalance(node->left) < 0)
             return DoubleRotateRight(node);
     }
     else if (GetBalance(node) < -1)
@@ -398,12 +398,18 @@ template <typename Key, typename Info>
 void Tree<Key, Info>::CopyTree(Node *&newTree, Node *copiedTree)
 {
     if (copiedTree == nullptr)
-        return;
+        newTree = nullptr;
     else
     {
-        newTree = Insert(newTree, copiedTree->key, copiedTree->info);
-        CopyTree(newTree, copiedTree->right);
-        CopyTree(newTree, copiedTree->left);
+        Node *left;
+        CopyTree(left, copiedTree->left);
+        Node *right;
+        CopyTree(right, copiedTree->right);
+
+        newTree = new Node(copiedTree->key, copiedTree->info);
+        newTree->height = copiedTree->height;
+        newTree->left = left;
+        newTree->right = right;
     }
 }
 
@@ -512,7 +518,7 @@ void Tree<Key, Info>::PrintVisually(Node *node, int indent) const
         for (int i = 15; i < indent; i++)
             std::cout << " ";
         std::cout << "(" << node->key << ", " << node->info << ")\n";
-        
+
         PrintVisually(node->left, indent);
     }
 }
