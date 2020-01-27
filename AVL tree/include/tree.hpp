@@ -224,6 +224,9 @@ typename Tree<Key, Info>::Node *Tree<Key, Info>::Remove(Node *node, const Key &k
 
         size--;
 
+        temp->left = nullptr;
+        temp->right = nullptr;
+
         delete temp;
     }
 
@@ -234,17 +237,17 @@ typename Tree<Key, Info>::Node *Tree<Key, Info>::Remove(Node *node, const Key &k
 
     if (GetBalance(node) > 1)
     {
-        if (key < node->left->key)
-            node = SingleRotateRight(node);
-        else
-            node = DoubleRotateRight(node);
+        if (GetBalance(node->left) >= 0)
+            return SingleRotateRight(node);
+        else if(GetBalance(node->left) < 0)
+            return DoubleRotateRight(node);
     }
     else if (GetBalance(node) < -1)
     {
-        if (key > node->right->key)
-            node = SingleRotateLeft(node);
-        else
-            node = DoubleRotateLeft(node);
+        if (GetBalance(node->right) <= 0)
+            return SingleRotateLeft(node);
+        else if (GetBalance(node->right) > 0)
+            return DoubleRotateLeft(node);
     }
 
     return node;
@@ -501,13 +504,15 @@ void Tree<Key, Info>::PrintVisually(Node *node, int indent) const
         return;
     else
     {
-        indent += 10;
+        indent += 15;
 
         PrintVisually(node->right, indent);
+
         std::cout << std::endl;
-        for (int i = 10; i < indent; i++)
+        for (int i = 15; i < indent; i++)
             std::cout << " ";
         std::cout << "(" << node->key << ", " << node->info << ")\n";
+        
         PrintVisually(node->left, indent);
     }
 }
