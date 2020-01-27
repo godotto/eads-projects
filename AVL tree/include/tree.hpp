@@ -21,7 +21,7 @@ public:
 
     bool IsEmpty() const;
     int Size() const;
-    bool Search(const Key &key, const Info &info) const;
+    bool Search(const Key &key) const;
 
     void PrintInorder() const;
     void PrintPreorder() const;
@@ -64,6 +64,7 @@ private:
     void PrintPostorder(Node *node) const;
     void PrintVisually(Node *node, int indent) const;
 
+    Node *Search(Node *node, const Key &key) const;
     void CopyTree(Node *&newTree, Node *copiedTree);
     void CompareTrees(Node *left, Node *right, bool isEqual);
 };
@@ -369,6 +370,26 @@ bool Tree<Key, Info>::IsEmpty() const
 
 template <typename Key, typename Info>
 int Tree<Key, Info>::Size() const { return size; }
+
+template <typename Key, typename Info>
+typename Tree<Key, Info>::Node *Tree<Key, Info>::Search(Node *node, const Key &key) const
+{
+    if (node == nullptr || node->key == key)
+        return node;
+    else if (node->key < key)
+        return Search(node->right, key);
+    else
+        return Search(node->left, key);
+}
+
+template <typename Key, typename Info>
+bool Tree<Key, Info>::Search(const Key &key) const
+{
+    if (Search(root, key) == nullptr)
+        return false;
+    else
+        return true;
+}
 
 template <typename Key, typename Info>
 void Tree<Key, Info>::CopyTree(Node *&newTree, Node *copiedTree)
