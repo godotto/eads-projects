@@ -117,3 +117,47 @@ TEST_CASE("Comparison operators")
     REQUIRE((tree1 != tree2));
     REQUIRE_FALSE((tree1 == tree2));
 }
+
+TEST_CASE("Copying tree")
+{
+    SECTION("copy constructor")
+    {
+        Tree<int, int> *tree1 = new Tree<int, int>;
+        tree1->Insert(3, 1);
+        tree1->Insert(-1, 1);
+        tree1->Insert(7, 1);
+        tree1->Insert(10, 1);
+        tree1->Insert(-12, 1);
+        tree1->Insert(9, 1);
+        tree1->Insert(11, 1);
+
+        Tree<int, int> *tree2 = new Tree<int, int>(*tree1);
+        REQUIRE((*tree1 == *tree2) == true);
+
+        delete tree1;
+        std::cout << std::endl;
+        tree2->PrintInorder();
+        delete tree2;
+    }
+
+    SECTION("assigment operator")
+    {
+        Tree<int, int> *tree1 = new Tree<int, int>;
+        tree1->Insert(3, 1);
+        tree1->Insert(-1, 1);
+        tree1->Insert(7, 1);
+        tree1->Insert(10, 1);
+        tree1->Insert(-12, 1);
+        tree1->Insert(9, 1);
+        tree1->Insert(11, 1);
+
+        Tree<int, int> *tree2 = new Tree<int, int>;
+        *tree2 = *tree1;
+        REQUIRE((*tree1 == *tree2) == true);
+
+        delete tree1;
+        std::cout << std::endl;
+        tree2->PrintInorder();
+        delete tree2;
+    }
+}

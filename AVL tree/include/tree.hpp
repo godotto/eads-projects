@@ -118,6 +118,7 @@ Tree<Key, Info> &Tree<Key, Info>::operator=(const Tree<Key, Info> &other)
 
     Clear();
     CopyTree(root, other.root);
+    size = other.size;
 
     return *this;
 }
