@@ -30,3 +30,26 @@ TEST_CASE("Empty tree")
         REQUIRE_FALSE(tree1.Search(2));
     }
 }
+
+TEST_CASE("Filling tree and printing")
+{
+    Tree<int, int> tree1;
+
+    tree1.Insert(3, 1);
+    tree1.Insert(-1, 1);
+    tree1.Insert(7, 1);
+    tree1.Insert(10, 1);
+    tree1.Insert(-12, 1);
+    tree1.Insert(9, 1);
+    tree1.Insert(11, 1);
+
+    std::cout << std::endl;
+    tree1.PrintInorder();
+    std::cout << std::endl;
+    tree1.PrintPreorder();
+    std::cout << std::endl;
+    tree1.PrintPostorder();
+    std::cout << std::endl;
+    tree1.PrintVisually();
+    std::cout << std::endl;
+}
