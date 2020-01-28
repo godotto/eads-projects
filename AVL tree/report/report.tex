@@ -34,4 +34,183 @@ and if new data with already existing key is being aded, {\tt Info} is replaced 
 value. Additional requirement is to print the structure in a way that root is on the left
 hand side of screen and leaves are on the right hand side.
 
+\section{Overview of funtions}
+
+\subsection{Constructors and destructor}
+
+\begin{lstlisting}[language=C++]
+Tree()
+\end{lstlisting}
+Default constructor.
+
+\begin{lstlisting}[language=C++]
+~Tree()
+\end{lstlisting}
+Destructor.
+
+\begin{lstlisting}[language=C++]
+Tree(const Tree<Key, Info> &other)
+\end{lstlisting}
+Copy constructor.
+
+\begin{lstlisting}[language=C++]
+Node(const Key &key, const Info &info)
+\end{lstlisting}
+Constructor for {\tt Node}. Creates new {\tt Node} object with given key and information.
+
+\begin{lstlisting}[language=C++]
+~Node()
+\end{lstlisting}
+Destructor for {\tt Node}.
+
+\vspace{\baselineskip}
+
+\subsection{Overloaded operators}
+
+\begin{lstlisting}[language=C++]
+Tree<Key, Info> &operator=(const Tree<Key, Info> &other)
+\end{lstlisting}
+Assignment operator.
+
+\begin{lstlisting}[language=C++]
+bool operator==(const Tree<Key, Info> &other)
+\end{lstlisting}
+Comparison operator. Returns {\tt true} if compared trees contain the same elements.
+
+\begin{lstlisting}[language=C++]
+bool operator!=(const Tree<Key, Info> &other)
+\end{lstlisting}
+Comparison operator. Returns {\tt false} if compared trees contain the same elements.
+\newpage
+
+\subsection{Operations on tree}
+
+\begin{lstlisting}[language=C++]
+int Height(Node *node) const
+\end{lstlisting}
+Returns height of {\tt Node}. If {\tt Node} is equal to {\tt nullptr} returns -1.
+
+\begin{lstlisting}[language=C++]
+int GetBalance(Node *node) const
+\end{lstlisting}
+Returns balance factor of {\tt Node}. If {\tt Node} is equal to {\tt nullptr} returns -1.
+
+\begin{lstlisting}[language=C++]
+int UpdateHeight(int leftHeight, int rightHeight) const
+\end{lstlisting}
+Returns updated high for {\tt Node}. {\tt leftHeight} and {\tt rightHeight} are heights
+of node's children.
+
+\begin{lstlisting}[language=C++]
+Node *SingleRotateLeft(Node *node)
+Node *SingleRotateRight(Node *node)
+Node *DoubleRotateLeft(Node *node)
+Node *DoubleRotateRight(Node *node)
+\end{lstlisting}
+These methods perform operations of nodes rotation.
+
+\begin{lstlisting}[language=C++]
+Node *GetMinimalKey(Node *node) const
+\end{lstlisting}
+Returns {\tt Node} with smallest key value.
+\vspace{\baselineskip}
+
+\subsection{Modifiers}
+
+\begin{lstlisting}[language=C++]
+public: void Insert(const Key &key, const Info &info)
+private: Node *Insert(Node *parent, 
+                      const Key &key, const Info &info)
+\end{lstlisting}
+Add new element with given data. If {\tt key} exists in tree, method replaces {\tt info}.
+
+\begin{lstlisting}[language=C++]
+public: void Remove(const Key &key);
+private: Node *Remove(Node *node, const Key &key)
+\end{lstlisting}
+If {\tt key} exists in tree, method removes the entry with this key.
+
+\begin{lstlisting}[language=C++]
+public: bool Clear()
+private: void Clear(Node *node)
+\end{lstlisting}
+Removes all nodes. If tree was empty before, method returns {\tt false}.
+\vspace{\baselineskip}
+
+\subsection{Printing}
+
+\begin{lstlisting}[language=C++]
+public: void PrintInorder() const
+private: void PrintInorder(Node *node) const
+\end{lstlisting}
+Prints tree within in-order traversal.
+
+\begin{lstlisting}[language=C++]
+public: void PrintPreorder() const
+private: void PrintPreorder(Node *node) const
+\end{lstlisting}
+Prints tree within pre-order traversal.
+
+\begin{lstlisting}[language=C++]
+public: void PrintPostorder() const
+private: void PrintPostorder(Node *node) const
+\end{lstlisting}
+Prints tree within post-order traversal.
+\newpage
+
+\begin{lstlisting}[language=C++]
+public: void PrintVisually() const
+private: void PrintVisually(Node *node) const
+\end{lstlisting}
+Prints tree's visual representation.
+
+\subsubsection*{Example}
+\begin{lstlisting}[language=C++]
+
+                                (11, 1)
+                                /
+                         (10, 1)
+                        /
+                 (9, 1)
+                       \
+                 /      (7, 1)
+                /
+root---> (3, 1)
+                \
+                 (-1, 1)
+                         \
+                         (-12, 1)
+\end{lstlisting}
+\vspace{\baselineskip}
+
+\subsection{Other methods}
+
+\begin{lstlisting}[language=C++]
+bool IsEmpty() const
+\end{lstlisting}
+Returns {\tt true} if tree contains no nodes.
+
+\begin{lstlisting}[language=C++]
+int Size() const
+\end{lstlisting}
+Returns private field {\tt size} which contains number of nodes in tree.
+
+\begin{lstlisting}[language=C++]
+bool Search(const Key &key) const
+Node *Search(Node *node, const Key &key) const
+\end{lstlisting}
+Returns {\tt true} if {\tt key} is in the tree.
+
+\begin{lstlisting}[language=C++]
+void CopyTree(Node *&newTree, Node *copiedTree)
+\end{lstlisting}
+Auxiliary method used by copy constructor and assignment operator. Copies tree to given
+root {\tt newTree}.
+
+\begin{lstlisting}[language=C++]
+void CompareTrees(Node *left, Node *right, bool &isEqual)
+\end{lstlisting}
+Auxiliary method used by comparison operators. If trees are not the same saves {\tt false}
+value to {\tt isEqual} variable.
+
 \end{document}
