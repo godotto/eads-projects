@@ -17,7 +17,7 @@ TEST_CASE("Empty tree")
         tree1.PrintVisually();
     }
 
-    SECTION("checking if list is empty")
+    SECTION("checking if tree is empty")
     {
         REQUIRE(tree1.Size() == 0);
         REQUIRE(tree1.IsEmpty());

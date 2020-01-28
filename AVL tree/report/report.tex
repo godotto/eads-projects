@@ -220,6 +220,63 @@ My conception did not have any bigger changes. On the beginning I wanted to impl
 methods only for single rotations. If double rotations were needed, I would perform them
 within {\tt Insert} and {\tt Remove}. However adding double rotation methods increased
 readability of code.
+\newpage
 
+\section{Testing}
+
+\subsection{Introduction}
+
+For testing purpose I used Catch2 framework. To check code for memory leaks I used
+Valgrind. No memory leaks were found after usage of all implemented features of class.
+
+\subsection{Structure of tests}
+
+\subsubsection*{Empty tree}
+
+\begin{itemize}
+    \item Printing tree
+    \item Checking if tree is empty
+    \item Using removal methods
+    \item Using {\tt Search} method
+\end{itemize}
+
+\subsubsection*{Filling tree and printing}
+
+\begin{itemize}
+    \item Adding nodes
+    \item In-order printing
+    \item Pre-order printing
+    \item Post-order printing
+    \item Visual printing
+\end{itemize}
+
+\subsubsection*{Removing nodes from tree}
+
+\begin{itemize}
+    \item Removing chosen nodes
+    \item Removing all nodes
+\end{itemize}
+
+\subsubsection*{Comparison operators}
+
+\begin{itemize}
+    \item Equality operator
+    \item Inequality operator
+\end{itemize}
+
+\subsubsection*{Copying trees}
+
+\begin{itemize}
+    \item Copying with copy constructor
+    \item Copying with assignment operator
+\end{itemize}
+
+\subsubsection*{Other methods}
+
+\begin{itemize}
+    \item Size method
+    \item IsEmpty method
+    \item Search method
+\end{itemize}
 
 \end{document}
