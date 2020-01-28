@@ -212,5 +212,14 @@ void CompareTrees(Node *left, Node *right, bool &isEqual)
 \end{lstlisting}
 Auxiliary method used by comparison operators. If trees are not the same saves {\tt false}
 value to {\tt isEqual} variable.
+\vspace{\baselineskip}
+
+\section{Decisions and changes}
+
+My conception did not have any bigger changes. On the beginning I wanted to implement
+methods only for single rotations. If double rotations were needed, I would perform them
+within {\tt Insert} and {\tt Remove}. However adding double rotation methods increased
+readability of code.
+
 
 \end{document}
